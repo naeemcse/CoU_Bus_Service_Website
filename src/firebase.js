@@ -3,19 +3,20 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, createUserWithEmailAndPassword ,signInWithEmailAndPassword,sendPasswordResetEmail,GoogleAuthProvider,signInWithPopup} from "firebase/auth";
 
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "AIzaSyBj6wF8D2QUW66e0NY7smwWRg2XCi6jmNQ",
-    authDomain: "cou-bus-service.firebaseapp.com",
-    projectId: "cou-bus-service",
-    storageBucket: "cou-bus-service.appspot.com",
-    messagingSenderId: "904396289831",
-    appId: "1:904396289831:web:59dec8f2721ea5608f9b02",
-    measurementId: "G-GYMX4HCXKY"
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_FIREBASE_APP_ID,
+    measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase
@@ -65,9 +66,10 @@ const resetPassword = async (email) => {
 
 const singInWithGoogle = async () =>{
   try {
-    const user = await  signInWithPopup(auth, provider)
-        console.log("From firebase request"+ user) ;
-        return user;
+    const res  = await  signInWithPopup(auth, provider)
+      // console.log("From firebase request"+ user.user) ;
+    const user = res.user ;
+    return user;
     }
     catch(error){
    console.log(error)

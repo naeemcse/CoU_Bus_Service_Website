@@ -19,8 +19,7 @@ const Home = () => {
     if(error){
         return <h1>Error:{error}</h1>
     } if(user) {
-
-    return (
+     return (
         <div>
     <h1>Home page </h1>
     <span> User is : </span> {user.email}

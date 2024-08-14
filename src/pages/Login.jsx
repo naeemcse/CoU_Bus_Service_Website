@@ -15,7 +15,7 @@ const Login = () => {
 
     const handleSocialLogIn = () => {
         singInWithGoogle().then((user) => {
-            console.log("From result: " + user);
+            console.log(user);
             navigate("/");
         }).catch((error) => {
             console.log(error);
