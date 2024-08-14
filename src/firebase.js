@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword ,signInWithEmailAndPassword,sendPasswordResetEmail,GoogleAuthProvider,signInWithPopup} from "firebase/auth";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -23,15 +23,27 @@ const app = initializeApp(firebaseConfig);
 
 const auth = getAuth();
 
+// for Social LogiIn
+const provider = new GoogleAuthProvider();
 
 
-const registerWithEmailAndPassword = async (email, password) => {
-
+export const registerWithEmailAndPassword = async (email, password) => {
     try{
+        const user  = await createUserWithEmailAndPassword(auth, email, password) ;
+       // console.log(user);
+       return user;
+    }
+    catch (error) {
+        console.log(error);
+    }
 
-        const res = await createUserWithEmailAndPassword(auth, email, password) ;
-        const user = res.user;
-        console.log(user);
+}
+
+export const logInWithEmailAndPassword = async (email, password) => {
+    try{
+        const user  = await signInWithEmailAndPassword(auth, email, password) ;
+       // console.log(user);
+       return user;
     }
     catch (error) {
         console.log(error);
@@ -40,6 +52,29 @@ const registerWithEmailAndPassword = async (email, password) => {
 }
 
 
+const resetPassword = async (email) => {
+
+    try {
+        const user = await sendPasswordResetEmail(auth, email);
+        // console.log(user
+        return user;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const singInWithGoogle = async () =>{
+  try {
+    const user = await  signInWithPopup(auth, provider)
+        console.log("From firebase request"+ user) ;
+        return user;
+    }
+    catch(error){
+   console.log(error)
+}
+
+}
+
 const analytics = getAnalytics(app);
 
-
+export  {auth , resetPassword , singInWithGoogle};
